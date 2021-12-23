@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Prime Auction Dashboard</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .text-gray {
+                color: #aaa
+            }
+        </style>
+    </head>
+    <body>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-5"><h2>Welcome to Auction App Dashboard</h2></div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-5"></div>
+            <div class="col-6"><h3>Just Bid and Ask</h3></div>
+            <div class="col-1"><img src="{{avatar_url}}" alt="User Avatar" height="64" width="64"></div>
+        </div>
+        <div class="row">
+            <div class="col-9"></div>
+            <div class="col-2"><h5>{{email}}</h5></div>
+            <div class="col-1"><button><a href="/app/logout">Logout</a></button></div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4"><button><a href="/app/add/product">Start Auction of your Product</a></button></div>
+            <div class="col-3"><button><a href="/app/user/products">My Posted Items</a></button></div>
+            <div class="col-3"><button><a href="/app/user/bid/wins">Bids You Win</a></button></div>
+        </div>
+        <div class="row">
+            <div class="container py-5">
+                <div class="row text-center mb-5">
+                    <div class="col-lg-7 mx-auto">
+                        <h1 class="display-4">Auction Products by Others</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <ul class="list-group shadow">
+                            {% for product in products %}
+                            <a href="/app/get/product/{{product.id}}">
+                                <li class="list-group-item">
+                                    <!-- Custom content-->
+                                    <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                                        <div class="media-body order-2 order-lg-1">
+                                            <h5 class="mt-0 font-weight-bold mb-2">{{product.name}}</h5>
+                                            <p class="font-italic text-muted mb-0 small">{{product.description}}</p>
+                                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                                <h6 class="font-weight-bold my-2">{{product.minimum_bid}}</h6>
+                                                <h6 class="font-weight-bold my-2">Uploaded At: {{product.created_at}}</h6>
+                                            </div>
+                                        </div><img src="{{product.photo}}" alt="Generic placeholder image" width="200" class="ml-lg-5 order-1 order-lg-2">
+                                    </div>
+                                </li>
+                            </a>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+

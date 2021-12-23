@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>See Product of Prime Auction!</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            body {
+                background-color: #a2dfe0
+            }
+
+            .container {
+                height: 100vh
+            }
+
+            .card {
+                background-color: #c1e8ed;
+                width: 600px;
+                padding: 10px;
+                border: 1px solid #eee
+            }
+
+            .inner-card {
+                background: #fff;
+                padding: 10px;
+                border-radius: 5px
+            }
+
+            .heart {
+                cursor: pointer;
+                height: 35px;
+                width: 35px;
+                font-size: 13px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #beb4aa;
+                border-radius: 50%;
+                background-color: #eee
+            }
+
+            .btn:focus {
+                color: #fff;
+                background-color: #025ce2;
+                border-color: #0257d5;
+                box-shadow: none
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container mt-5 mb-5 d-flex justify-content-center align-items-center">
+            <div class="card">
+                <div class="inner-card"> <img src="{{product.photo}}" class="img-fluid rounded">
+                    <div class="d-flex justify-content-between align-items-center mt-3 px-2">
+                        <h4>{{product.name}}</h4>
+                    </div>
+                    <div class="mt-2 px-2"> <small>{{product.description}}</small> </div>
+                    <div class="px-2">
+                        <h3>{{product.minimum_bid}}</h3>
+                    </div>
+                    <div class="mt-4 px-2">
+                        <h3>Bid Deadline: {{product.bid_deadline}}</h3>
+                    </div>
+                    {% if product.user_id_id != user_id and bid_available %}
+                    <form action="/app/bid/product/{{product.id}}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                          <label for="bid_price" class="col-4 col-form-label">Place or Update a bid</label> 
+                          <div class="col-8">
+                            <input id="bid_price" name="bid_price" placeholder="Enter the amount you want to bid" type="text" class="form-control" required="required">
+                          </div>
+                        </div> 
+                        <div class="form-group row">
+                          <div class="offset-4 col-8">
+                            <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                    {% if not bid_available %}
+                    <div class="px-2">
+                        <h3>Bid is won by: {{winner.user_email}}</h3>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <table class="table bg-white rounded border">
+                    <thead>
+                        <tr>
+                            <th scope="col">Bid Price</th>
+                            <th scope="col">Bid Placed At</th>
+                            <th scope="col">Your Bid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bid in bids %}
+                        <tr>
+                            <td>{{bid.ask_price}}</td>
+                            <td>{{bid.created_at}}</td>
+                            {% if bid.bider_id == user_id %}
+                            <td>Yes</td>
+                            {% else %}
+                            <td></td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6"></div>
+            <div class="col-6"><button><a href="/app/dashboard/{{user_id}}">Go to Dashboard</a></button></div>
+        </div>
+    </body>
+</html>
+
